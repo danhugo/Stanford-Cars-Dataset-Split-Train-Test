@@ -1,8 +1,8 @@
 import scipy.io as sio
 import os
 import shutil
-train_dir = "/home/daoduyhung/data/car/train"
-test_dir = "/home/daoduyhung/data/car/test"
+train_dir = "/mnt/KAIST/dao/car/train"
+test_dir = "/mnt/KAIST/dao/car/test"
 
 train_annos_path = "annos/cars_train_annos.mat"
 test_annos_path = "annos/cars_test_annos.mat"
@@ -24,8 +24,9 @@ def move_img(dir, annos_path):
     annotations = annos['annotations'][0]
     for anno in annotations:
         img_name = anno[5][0]
+        new_img_name = 'train_' + img_name if dir == train_dir else 'test_' + img_name
         class_id = anno[4][0][0]
-        shutil.move(os.path.join(dir, img_name), os.path.join(dir, str(class_id), img_name))
+        shutil.move(os.path.join(dir, img_name), os.path.join(dir, str(class_id), new_img_name))
 
 def rename_folder(dir):
     classes = sio.loadmat(full_annos_path)['class_names'][0]
